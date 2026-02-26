@@ -34,6 +34,8 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
   
+  const [viewType, setViewType] = useState<'day' | 'week' | 'month'>('day')
+  
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
@@ -106,12 +108,46 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
            d1.getDate() === d2.getDate()
   }
 
+  const isSameWeek = (d1: Date, d2: Date) => {
+    const startOfWeek = (date: Date) => {
+      const d = new Date(date)
+      d.setHours(0, 0, 0, 0)
+      const day = d.getDay()
+      const diff = d.getDate() - day
+      d.setDate(diff)
+      return d.getTime()
+    }
+    return startOfWeek(d1) === startOfWeek(d2)
+  }
+
+  const isSameMonth = (d1: Date, d2: Date) => {
+    return d1.getFullYear() === d2.getFullYear() &&
+           d1.getMonth() === d2.getMonth()
+  }
+
   const filteredAppointments = useMemo(() => {
     return initialAppointments.filter(app => {
       const appDate = new Date(app.scheduled_time)
-      return isSameDay(appDate, selectedDate)
+      if (viewType === 'day') return isSameDay(appDate, selectedDate)
+      if (viewType === 'week') return isSameWeek(appDate, selectedDate)
+      if (viewType === 'month') return isSameMonth(appDate, selectedDate)
+      return false
     })
-  }, [initialAppointments, selectedDate])
+  }, [initialAppointments, selectedDate, viewType])
+
+  const viewHeading = useMemo(() => {
+    if (viewType === 'day') {
+      return selectedDate.toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' })
+    }
+    if (viewType === 'week') {
+      const start = new Date(selectedDate)
+      start.setDate(selectedDate.getDate() - selectedDate.getDay())
+      const end = new Date(start)
+      end.setDate(start.getDate() + 6)
+      return `${start.toLocaleDateString('default', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('default', { month: 'short', day: 'numeric', year: 'numeric' })}`
+    }
+    return selectedDate.toLocaleDateString('default', { month: 'long', year: 'numeric' })
+  }, [selectedDate, viewType])
 
   const variants = {
     enter: (direction: number) => ({
@@ -254,34 +290,49 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                 <CalendarIcon className="w-5 h-5 text-indigo-600" />
               </div>
               <h2 className="font-bold text-lg text-slate-900">
-                {selectedDate.toLocaleDateString('default', { weekday: 'long', month: 'long', day: 'numeric' })}
+                {viewHeading}
               </h2>
             </div>
             <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
-              <button className="px-4 py-1.5 text-xs font-bold bg-white text-slate-900 rounded-lg shadow-sm transition-all">Day</button>
-              <button className="px-4 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">Week</button>
-              <button className="px-4 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">Month</button>
+              <button 
+                onClick={() => setViewType('day')}
+                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'day' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                Day
+              </button>
+              <button 
+                onClick={() => setViewType('week')}
+                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'week' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                Week
+              </button>
+              <button 
+                onClick={() => setViewType('month')}
+                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'month' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+              >
+                Month
+              </button>
             </div>
           </div>
 
           <div className="space-y-3">
             {filteredAppointments.length > 0 ? (
               filteredAppointments.map((job) => (
-                <Card key={job.id} className="hover:border-indigo-300 hover:shadow-md transition-all group relative border-slate-200 overflow-hidden">
-                  <div className={`absolute left-0 top-0 bottom-0 w-1 ${
+                <Card key={job.id} className="hover:border-indigo-300 hover:shadow-md transition-all group relative border-slate-200">
+                  <div className={`absolute left-0 top-0 bottom-0 w-1 z-10 ${
                     job.status === 'In Progress' ? 'bg-blue-500' : 
                     job.status === 'Completed' ? 'bg-emerald-500' :
                     'bg-slate-300'
                   }`} />
-                  <CardContent className="p-5">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                      <div className="flex gap-5">
-                        <div className="flex flex-col items-center justify-center bg-slate-50 px-4 py-3 rounded-xl border border-slate-100 min-w-[110px] shadow-inner">
+                  <CardContent className="p-4 sm:p-5">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
+                        <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center bg-slate-50 px-4 py-3 rounded-xl border border-slate-100 min-w-[110px] shadow-inner">
                           <span className="text-sm font-black text-indigo-600">{formatTime(job.scheduled_time)}</span>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mt-1">{job.duration}</span>
+                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{job.duration}</span>
                         </div>
-                        <div>
-                          <h3 className="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition-colors">{job.customers?.name || 'Unknown Customer'}</h3>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition-colors truncate">{job.customers?.name || 'Unknown Customer'}</h3>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="text-sm font-medium text-slate-500">{job.job_type}</span>
                             <span className="w-1 h-1 rounded-full bg-slate-300" />
@@ -290,49 +341,63 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                         </div>
                       </div>
                       
-                      <div className="flex flex-wrap items-center gap-6 text-sm">
-                        <div className="flex items-center gap-2 text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                          <MapPin className="w-4 h-4 text-slate-400" />
-                          <span className="max-w-[180px] truncate font-medium">{job.customers?.address || 'No address'}</span>
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 text-sm">
+                        <div className="flex flex-wrap items-center gap-3 sm:gap-6 w-full sm:w-auto">
+                          <div className="flex items-center gap-2 text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 flex-1 sm:flex-none">
+                            <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                            <span className="max-w-[150px] sm:max-w-[180px] truncate font-medium">{job.customers?.address || 'No address'}</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 flex-1 sm:flex-none">
+                            <User className="w-4 h-4 text-slate-400 shrink-0" />
+                            <span className="font-medium truncate">{job.technician_name}</span>
+                          </div>
                         </div>
-                        <div className="flex items-center gap-2 text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                          <User className="w-4 h-4 text-slate-400" />
-                          <span className="font-medium">{job.technician_name}</span>
-                        </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm ${
-                          job.status === 'In Progress' ? 'bg-blue-500 text-white' : 
-                          job.status === 'Completed' ? 'bg-emerald-500 text-white' :
-                          'bg-slate-100 text-slate-600 border border-slate-200'
-                        }`}>
-                          {job.status}
-                        </span>
                         
-                        <div className="relative">
-                          <button 
-                            onClick={() => setActiveMenu(activeMenu === job.id ? null : job.id)}
-                            className="p-2 text-slate-400 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
-                          >
-                            <MoreVertical className="w-5 h-5" />
-                          </button>
+                        <div className="flex items-center justify-between w-full sm:w-auto gap-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm whitespace-nowrap ${
+                            job.status === 'In Progress' ? 'bg-blue-500 text-white' : 
+                            job.status === 'Completed' ? 'bg-emerald-500 text-white' :
+                            'bg-slate-100 text-slate-600 border border-slate-200'
+                          }`}>
+                            {job.status}
+                          </span>
                           
-                          {activeMenu === job.id && (
-                            <div className="absolute right-0 top-10 z-10 w-40 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ring-4 ring-slate-50">
-                              <button 
-                                onClick={() => handleEdit(job)}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 text-left transition-colors"
-                              >
-                                <Edit2 className="w-4 h-4 text-slate-400" />
-                                Edit Details
-                              </button>
-                              <button 
-                                onClick={() => handleDelete(job.id)}
-                                className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 text-left transition-colors border-t border-slate-50"
-                              >
-                                <Trash2 className="w-4 h-4 text-red-400" />
-                                Delete Job
-                              </button>
-                            </div>
-                          )}
+                          <div className="relative">
+                            <button 
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setActiveMenu(activeMenu === job.id ? null : job.id)
+                              }}
+                              className="p-2 text-slate-400 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            >
+                              <MoreVertical className="w-5 h-5" />
+                            </button>
+                            
+                            {activeMenu === job.id && (
+                              <>
+                                <div 
+                                  className="fixed inset-0 z-20" 
+                                  onClick={() => setActiveMenu(null)}
+                                />
+                                <div className="absolute right-0 top-full mt-2 z-30 w-48 bg-white rounded-xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ring-4 ring-slate-50">
+                                  <button 
+                                    onClick={() => handleEdit(job)}
+                                    className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 text-left transition-colors"
+                                  >
+                                    <Edit2 className="w-4 h-4 text-slate-400" />
+                                    Edit Details
+                                  </button>
+                                  <button 
+                                    onClick={() => handleDelete(job.id)}
+                                    className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-red-600 hover:bg-red-50 text-left transition-colors border-t border-slate-50"
+                                  >
+                                    <Trash2 className="w-4 h-4 text-red-400" />
+                                    Delete Job
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -344,8 +409,8 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                 <div className="bg-slate-50 p-4 rounded-full mb-4">
                   <CalendarIcon className="w-8 h-8 text-slate-300" />
                 </div>
-                <h3 className="font-bold text-slate-900">No appointments today</h3>
-                <p className="text-slate-500 text-sm mt-1">Enjoy the quiet day or schedule a new job.</p>
+                <h3 className="font-bold text-slate-900">No appointments for this {viewType}</h3>
+                <p className="text-slate-500 text-sm mt-1">Enjoy the quiet time or schedule a new job.</p>
                 <button 
                   onClick={() => setIsDialogOpen(true)}
                   className="mt-6 text-sm font-bold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
