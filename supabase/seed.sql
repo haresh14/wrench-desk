@@ -83,3 +83,9 @@ SELECT
     'INV-004' as invoice_number,
     user_id
 FROM customers WHERE email = 'emily@example.com' AND user_id = '6bc5b5a9-02af-4d15-9dd5-811be4867d9a';
+
+-- Seed data for settings
+INSERT INTO settings (company_name, business_address, service_areas, user_id)
+VALUES 
+('Acme Plumbing & HVAC', '123 Maple St, Springfield, IL 62704', 'Springfield, Riverside, Lakeside', '6bc5b5a9-02af-4d15-9dd5-811be4867d9a')
+ON CONFLICT (user_id) DO NOTHING;

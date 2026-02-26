@@ -83,3 +83,26 @@ CREATE POLICY "Users can update own invoices" ON invoices
 
 CREATE POLICY "Users can delete own invoices" ON invoices
     FOR DELETE USING (auth.uid() = user_id);
+
+-- 4. Settings Table
+CREATE TABLE IF NOT EXISTS settings (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    company_name TEXT,
+    business_address TEXT,
+    service_areas TEXT,
+    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL UNIQUE
+);
+
+-- Enable RLS for Settings
+ALTER TABLE settings ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policies for Settings
+CREATE POLICY "Users can view own settings" ON settings
+    FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "Users can insert own settings" ON settings
+    FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "Users can update own settings" ON settings
+    FOR UPDATE USING (auth.uid() = user_id);
