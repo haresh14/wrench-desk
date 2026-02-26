@@ -25,6 +25,7 @@ export async function createClient() {
                 ...options,
                 sameSite: 'none',
                 secure: true,
+                path: '/',
               })
             )
           } catch {
@@ -37,6 +38,7 @@ export async function createClient() {
       cookieOptions: {
         sameSite: 'none',
         secure: true,
+        path: '/',
       },
     }
   )

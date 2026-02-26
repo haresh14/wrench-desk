@@ -18,6 +18,7 @@ export function createClient() {
       cookieOptions: {
         sameSite: 'none',
         secure: true,
+        path: '/',
       },
     }
   )

@@ -1,7 +1,17 @@
 import Link from 'next/link';
 import { Wrench, Calendar, Users, CreditCard, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { createClient } from '@/lib/supabase/server';
 
-export default function HomePage() {
+export default async function HomePage() {
+  let user = null;
+  try {
+    const supabase = await createClient();
+    const { data } = await supabase.auth.getUser();
+    user = data.user;
+  } catch (e) {
+    // Supabase not configured yet, ignore
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navigation */}
@@ -19,12 +29,20 @@ export default function HomePage() {
             <Link href="#pricing" className="text-sm font-medium text-slate-600 hover:text-slate-900">Pricing</Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">
-              Log in
-            </Link>
-            <Link href="/signup" className="text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
-              Start Free Trial
-            </Link>
+            {user ? (
+              <Link href="/dashboard" className="text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                Go to Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link href="/login" className="text-sm font-medium text-slate-600 hover:text-slate-900 hidden sm:block">
+                  Log in
+                </Link>
+                <Link href="/signup" className="text-sm font-medium bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+                  Start Free Trial
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
