@@ -13,6 +13,12 @@ export function createClient() {
 
   return createBrowserClient(
     url || 'https://placeholder.supabase.co',
-    key || 'placeholder'
+    key || 'placeholder',
+    {
+      cookieOptions: {
+        sameSite: 'none',
+        secure: true,
+      },
+    }
   )
 }

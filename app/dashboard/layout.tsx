@@ -1,16 +1,20 @@
-import Link from 'next/link'
-import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
+import { DashboardNav } from '@/components/dashboard-nav'
 import { 
-  Wrench, 
-  LayoutDashboard, 
-  Calendar, 
-  Users, 
-  FileText, 
-  Settings, 
   LogOut,
-  Menu
+  Wrench,
+  Menu,
 } from 'lucide-react'
+import { createClient } from '@/lib/supabase/server'
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+
+async function signOut() {
+  'use server'
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  revalidatePath('/', 'layout')
+  redirect('/login')
+}
 
 export default async function DashboardLayout({
   children,
@@ -27,66 +31,53 @@ export default async function DashboardLayout({
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-slate-900 text-slate-300 flex-shrink-0 hidden md:flex flex-col">
-        <div className="h-16 flex items-center px-6 border-b border-slate-800">
-          <Link href="/dashboard" className="flex items-center gap-2 text-white">
-            <div className="bg-indigo-500 p-1.5 rounded-lg">
-              <Wrench className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-lg tracking-tight">WrenchDesk</span>
-          </Link>
+      <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 sticky top-0 h-screen">
+        <div className="p-6 flex items-center gap-2 border-b border-slate-100">
+          <div className="bg-indigo-600 p-1.5 rounded-lg">
+            <Wrench className="w-5 h-5 text-white" />
+          </div>
+          <span className="font-bold text-xl tracking-tight text-slate-900">WrenchDesk</span>
         </div>
         
-        <div className="p-4 flex-1">
-          <nav className="space-y-1">
-            <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2 rounded-lg bg-slate-800 text-white">
-              <LayoutDashboard className="w-5 h-5" />
-              <span className="font-medium">Dashboard</span>
-            </Link>
-            <Link href="/dashboard/schedule" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-              <Calendar className="w-5 h-5" />
-              <span className="font-medium">Schedule</span>
-            </Link>
-            <Link href="/dashboard/customers" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-              <Users className="w-5 h-5" />
-              <span className="font-medium">Customers</span>
-            </Link>
-            <Link href="/dashboard/invoices" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-              <FileText className="w-5 h-5" />
-              <span className="font-medium">Invoices</span>
-            </Link>
-          </nav>
-        </div>
+        <DashboardNav />
 
-        <div className="p-4 border-t border-slate-800">
-          <nav className="space-y-1">
-            <Link href="/dashboard/settings" className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors">
-              <Settings className="w-5 h-5" />
-              <span className="font-medium">Settings</span>
-            </Link>
-            <form action="/auth/signout" method="post">
-              <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-800 hover:text-white transition-colors text-left">
-                <LogOut className="w-5 h-5" />
-                <span className="font-medium">Sign out</span>
-              </button>
-            </form>
-          </nav>
+        <div className="p-4 border-t border-slate-100">
+          <div className="flex items-center gap-3 px-3 py-2 mb-4">
+            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold text-xs">
+              {user.email?.[0]?.toUpperCase() ?? 'U'}
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-slate-900 truncate">{user.email}</p>
+              <p className="text-xs text-slate-500 truncate">Pro Plan</p>
+            </div>
+          </div>
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="flex items-center gap-3 w-full px-3 py-2 text-sm font-medium text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+            >
+              <LogOut className="w-4 h-4" />
+              Sign out
+            </button>
+          </form>
         </div>
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 lg:px-8 md:hidden">
-          <Link href="/dashboard" className="flex items-center gap-2">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* Mobile Header */}
+        <header className="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
             <div className="bg-indigo-600 p-1.5 rounded-lg">
               <Wrench className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg tracking-tight text-slate-900">WrenchDesk</span>
-          </Link>
-          <button className="p-2 text-slate-600 hover:bg-slate-100 rounded-lg">
+          </div>
+          <button className="p-2 text-slate-600">
             <Menu className="w-6 h-6" />
           </button>
         </header>
+
         <main className="flex-1 overflow-y-auto">
           {children}
         </main>
