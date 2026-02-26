@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { ChevronLeft, ChevronRight, Plus, Clock, MapPin, User, MoreVertical, Edit2, Trash2, Calendar as CalendarIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Plus, Clock, MapPin, User, MoreVertical, Edit2, Trash2, Calendar as CalendarIcon, RotateCcw } from 'lucide-react'
+import { motion, AnimatePresence } from 'motion/react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AppointmentDialog } from './appointment-dialog'
 import { deleteAppointment } from '@/app/dashboard/schedule/actions'
@@ -36,6 +37,7 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
   // Calendar state
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
+  const [direction, setDirection] = useState(0)
 
   const handleEdit = (appointment: Appointment) => {
     setSelectedAppointment(appointment)
@@ -82,11 +84,20 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
   }, [currentMonth])
 
   const nextMonth = () => {
+    setDirection(1)
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))
   }
 
   const prevMonth = () => {
+    setDirection(-1)
     setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))
+  }
+
+  const goToToday = () => {
+    const today = new Date()
+    setDirection(today > currentMonth ? 1 : -1)
+    setCurrentMonth(new Date(today.getFullYear(), today.getMonth(), 1))
+    setSelectedDate(today)
   }
 
   const isSameDay = (d1: Date, d2: Date) => {
@@ -101,6 +112,21 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
       return isSameDay(appDate, selectedDate)
     })
   }, [initialAppointments, selectedDate])
+
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 50 : -50,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -50 : 50,
+      opacity: 0
+    })
+  }
 
   return (
     <>
@@ -126,58 +152,79 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
         <div className="lg:col-span-1 space-y-6">
           <Card className="overflow-hidden border-slate-200 shadow-sm">
             <CardHeader className="p-4 border-b border-slate-100 bg-slate-50/50">
-              <div className="flex items-center justify-between">
-                <span className="font-bold text-sm text-slate-900">
-                  {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
-                </span>
-                <div className="flex gap-1">
-                  <button 
-                    onClick={prevMonth}
-                    className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 rounded-md transition-all"
-                  >
-                    <ChevronLeft className="w-4 h-4 text-slate-600" />
-                  </button>
-                  <button 
-                    onClick={nextMonth}
-                    className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 rounded-md transition-all"
-                  >
-                    <ChevronRight className="w-4 h-4 text-slate-600" />
-                  </button>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-sm text-slate-900">
+                    {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
+                  </span>
+                  <div className="flex gap-1">
+                    <button 
+                      onClick={prevMonth}
+                      className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 rounded-md transition-all"
+                    >
+                      <ChevronLeft className="w-4 h-4 text-slate-600" />
+                    </button>
+                    <button 
+                      onClick={nextMonth}
+                      className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 rounded-md transition-all"
+                    >
+                      <ChevronRight className="w-4 h-4 text-slate-600" />
+                    </button>
+                  </div>
                 </div>
+                <button 
+                  onClick={goToToday}
+                  className="flex items-center justify-center gap-2 w-full py-1.5 text-xs font-bold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors border border-indigo-100"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  Today
+                </button>
               </div>
             </CardHeader>
-            <CardContent className="p-4">
+            <CardContent className="p-4 relative overflow-hidden min-h-[260px]">
               <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 uppercase mb-3">
                 <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
               </div>
-              <div className="grid grid-cols-7 gap-1 text-center">
-                {daysInMonth.map((date, i) => {
-                  if (!date) return <div key={`empty-${i}`} className="h-8 w-8" />
-                  
-                  const isSelected = isSameDay(date, selectedDate)
-                  const isToday = isSameDay(date, new Date())
-                  const hasAppointments = initialAppointments.some(app => isSameDay(new Date(app.scheduled_time), date))
+              
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={currentMonth.toISOString()}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  className="grid grid-cols-7 gap-1 text-center"
+                >
+                  {daysInMonth.map((date, i) => {
+                    if (!date) return <div key={`empty-${i}`} className="h-8 w-8" />
+                    
+                    const isSelected = isSameDay(date, selectedDate)
+                    const isToday = isSameDay(date, new Date())
+                    const hasAppointments = initialAppointments.some(app => isSameDay(new Date(app.scheduled_time), date))
 
-                  return (
-                    <button 
-                      key={date.toISOString()} 
-                      onClick={() => setSelectedDate(date)}
-                      className={`h-8 w-8 flex flex-col items-center justify-center rounded-lg text-xs transition-all relative group ${
-                        isSelected 
-                          ? 'bg-indigo-600 text-white font-bold shadow-md shadow-indigo-200' 
-                          : isToday
-                            ? 'bg-indigo-50 text-indigo-600 font-bold'
-                            : 'text-slate-600 hover:bg-slate-100'
-                      }`}
-                    >
-                      {date.getDate()}
-                      {hasAppointments && !isSelected && (
-                        <span className="absolute bottom-1 w-1 h-1 rounded-full bg-indigo-400" />
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
+                    return (
+                      <button 
+                        key={date.toISOString()} 
+                        onClick={() => setSelectedDate(date)}
+                        className={`h-8 w-8 flex flex-col items-center justify-center rounded-lg text-xs transition-all relative group ${
+                          isSelected 
+                            ? 'bg-indigo-600 text-white font-bold shadow-md shadow-indigo-200' 
+                            : isToday
+                              ? 'bg-indigo-50 text-indigo-600 font-bold'
+                              : 'text-slate-600 hover:bg-slate-100'
+                        }`}
+                      >
+                        {date.getDate()}
+                        {hasAppointments && !isSelected && (
+                          <span className="absolute bottom-1 w-1 h-1 rounded-full bg-indigo-400" />
+                        )}
+                      </button>
+                    )
+                  })}
+                </motion.div>
+              </AnimatePresence>
             </CardContent>
           </Card>
 
