@@ -80,6 +80,37 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
     }
   }
 
+  const handleExport = () => {
+    if (filteredInvoices.length === 0) {
+      alert('No invoices to export.')
+      return
+    }
+
+    const headers = ['Invoice Number', 'Customer', 'Due Date', 'Amount', 'Status']
+    const rows = filteredInvoices.map(inv => [
+      inv.invoice_number,
+      inv.customers?.name || 'Unknown',
+      inv.due_date ? new Date(inv.due_date).toLocaleDateString() : 'N/A',
+      inv.amount.toString(),
+      inv.status
+    ])
+
+    const csvContent = [
+      headers.join(','),
+      ...rows.map(row => row.map(cell => `"${cell.toString().replace(/"/g, '""')}"`).join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.setAttribute('href', url)
+    link.setAttribute('download', `invoices_export_${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
   return (
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
@@ -88,7 +119,10 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
           <p className="text-slate-600 mt-1">Create and manage billing for your service jobs.</p>
         </div>
         <div className="flex gap-2">
-          <button className="flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors shadow-sm font-medium">
+          <button 
+            onClick={handleExport}
+            className="flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors shadow-sm font-medium"
+          >
             <Download className="w-4 h-4" />
             Export
           </button>
