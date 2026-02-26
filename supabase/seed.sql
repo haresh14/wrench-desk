@@ -42,3 +42,44 @@ SELECT
     'Scheduled' as status,
     user_id
 FROM customers WHERE email = 'robert@example.com' AND user_id = '6bc5b5a9-02af-4d15-9dd5-811be4867d9a';
+
+-- Seed data for invoices
+INSERT INTO invoices (customer_id, amount, status, due_date, invoice_number, user_id)
+SELECT 
+    id as customer_id,
+    450.00 as amount,
+    'Paid' as status,
+    (CURRENT_DATE - interval '5 days')::date as due_date,
+    'INV-001' as invoice_number,
+    user_id
+FROM customers WHERE email = 'john@example.com' AND user_id = '6bc5b5a9-02af-4d15-9dd5-811be4867d9a';
+
+INSERT INTO invoices (customer_id, amount, status, due_date, invoice_number, user_id)
+SELECT 
+    id as customer_id,
+    1200.00 as amount,
+    'Pending' as status,
+    (CURRENT_DATE + interval '10 days')::date as due_date,
+    'INV-002' as invoice_number,
+    user_id
+FROM customers WHERE email = 'sarah@example.com' AND user_id = '6bc5b5a9-02af-4d15-9dd5-811be4867d9a';
+
+INSERT INTO invoices (customer_id, amount, status, due_date, invoice_number, user_id)
+SELECT 
+    id as customer_id,
+    325.00 as amount,
+    'Overdue' as status,
+    (CURRENT_DATE - interval '2 days')::date as due_date,
+    'INV-003' as invoice_number,
+    user_id
+FROM customers WHERE email = 'robert@example.com' AND user_id = '6bc5b5a9-02af-4d15-9dd5-811be4867d9a';
+
+INSERT INTO invoices (customer_id, amount, status, due_date, invoice_number, user_id)
+SELECT 
+    id as customer_id,
+    890.00 as amount,
+    'Paid' as status,
+    (CURRENT_DATE - interval '15 days')::date as due_date,
+    'INV-004' as invoice_number,
+    user_id
+FROM customers WHERE email = 'emily@example.com' AND user_id = '6bc5b5a9-02af-4d15-9dd5-811be4867d9a';
