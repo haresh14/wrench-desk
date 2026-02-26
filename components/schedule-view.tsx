@@ -33,6 +33,8 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
+  const [appointmentToDelete, setAppointmentToDelete] = useState<string | null>(null)
+  const [isDeleting, setIsDeleting] = useState(false)
   
   const [viewType, setViewType] = useState<'day' | 'week' | 'month'>('day')
   
@@ -47,16 +49,24 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
     setActiveMenu(null)
   }
 
-  const handleDelete = async (id: string) => {
-    if (confirm('Are you sure you want to delete this appointment?')) {
-      try {
-        await deleteAppointment(id)
-      } catch (error) {
-        console.error('Error deleting appointment:', error)
-        alert('Failed to delete appointment.')
+  const handleDelete = async () => {
+    if (!appointmentToDelete) return
+    
+    setIsDeleting(true)
+    try {
+      const result = await deleteAppointment(appointmentToDelete)
+      if (result?.error) {
+        alert(`Error: ${result.error}`)
+      } else {
+        setAppointmentToDelete(null)
       }
+    } catch (error) {
+      console.error('Error deleting appointment:', error)
+      alert('An unexpected error occurred while deleting.')
+    } finally {
+      setIsDeleting(false)
+      setActiveMenu(null)
     }
-    setActiveMenu(null)
   }
 
   const formatTime = (dateString: string) => {
@@ -388,7 +398,10 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                                     Edit Details
                                   </button>
                                   <button 
-                                    onClick={() => handleDelete(job.id)}
+                                    onClick={() => {
+                                      setAppointmentToDelete(job.id)
+                                      setActiveMenu(null)
+                                    }}
                                     className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-red-600 hover:bg-red-50 text-left transition-colors border-t border-slate-50"
                                   >
                                     <Trash2 className="w-4 h-4 text-red-400" />
@@ -429,6 +442,53 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
         appointment={selectedAppointment}
         customers={customers}
       />
+
+      {/* Delete Confirmation Modal */}
+      <AnimatePresence>
+        {appointmentToDelete && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md overflow-hidden"
+            >
+              <div className="p-6">
+                <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                  <Trash2 className="w-6 h-6 text-red-500" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Delete Appointment?</h3>
+                <p className="text-slate-500 mt-2">
+                  This action cannot be undone. This appointment will be permanently removed from your schedule.
+                </p>
+              </div>
+              <div className="flex items-center gap-3 p-4 bg-slate-50 border-t border-slate-100">
+                <button 
+                  onClick={() => setAppointmentToDelete(null)}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-2.5 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-2.5 text-sm font-bold text-white bg-red-600 rounded-xl hover:bg-red-700 transition-colors shadow-lg shadow-red-200 disabled:opacity-50 flex items-center justify-center gap-2"
+                >
+                  {isDeleting ? (
+                    <>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      Deleting...
+                    </>
+                  ) : (
+                    'Delete Appointment'
+                  )}
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
