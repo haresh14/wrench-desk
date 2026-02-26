@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { ScheduleView } from '@/components/schedule-view'
 
+import { PageTransition } from '@/components/page-transition'
+
 export default async function SchedulePage() {
   const supabase = await createClient()
   
@@ -30,11 +32,13 @@ export default async function SchedulePage() {
   if (customersError) console.error('Error fetching customers:', customersError)
 
   return (
-    <div className="p-6 lg:p-8 max-w-7xl mx-auto">
-      <ScheduleView 
-        initialAppointments={appointments || []} 
-        customers={customers || []} 
-      />
-    </div>
+    <PageTransition>
+      <div className="p-6 lg:p-8 max-w-7xl mx-auto">
+        <ScheduleView 
+          initialAppointments={appointments || []} 
+          customers={customers || []} 
+        />
+      </div>
+    </PageTransition>
   )
 }

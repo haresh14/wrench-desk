@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { CustomerList } from '@/components/customer-list'
 
+import { PageTransition } from '@/components/page-transition'
+
 export default async function CustomersPage() {
   const supabase = await createClient()
   
@@ -14,8 +16,10 @@ export default async function CustomersPage() {
   }
 
   return (
-    <div className="p-6 lg:p-8 max-w-7xl mx-auto">
-      <CustomerList initialCustomers={customers || []} />
-    </div>
+    <PageTransition>
+      <div className="p-6 lg:p-8 max-w-7xl mx-auto">
+        <CustomerList initialCustomers={customers || []} />
+      </div>
+    </PageTransition>
   )
 }

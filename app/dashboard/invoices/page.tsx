@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server'
 import { InvoicesView } from '@/components/invoices-view'
 
+import { PageTransition } from '@/components/page-transition'
+
 export default async function InvoicesPage() {
   const supabase = await createClient()
 
@@ -29,11 +31,13 @@ export default async function InvoicesPage() {
   if (customersError) console.error('Error fetching customers:', customersError)
 
   return (
-    <div className="p-6 lg:p-8 max-w-7xl mx-auto">
-      <InvoicesView 
-        initialInvoices={invoices || []} 
-        customers={customers || []} 
-      />
-    </div>
+    <PageTransition>
+      <div className="p-6 lg:p-8 max-w-7xl mx-auto">
+        <InvoicesView 
+          initialInvoices={invoices || []} 
+          customers={customers || []} 
+        />
+      </div>
+    </PageTransition>
   )
 }
