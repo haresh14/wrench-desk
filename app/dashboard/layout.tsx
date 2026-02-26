@@ -1,4 +1,5 @@
 import { DashboardNav } from '@/components/dashboard-nav'
+import Link from 'next/link'
 import { 
   LogOut,
   Wrench,
@@ -32,12 +33,12 @@ export default async function DashboardLayout({
     <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar */}
       <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200 sticky top-0 h-screen">
-        <div className="p-6 flex items-center gap-2 border-b border-slate-100">
+        <Link href="/dashboard" className="p-6 flex items-center gap-2 border-b border-slate-100 hover:bg-slate-50 transition-colors">
           <div className="bg-indigo-600 p-1.5 rounded-lg">
             <Wrench className="w-5 h-5 text-white" />
           </div>
           <span className="font-bold text-xl tracking-tight text-slate-900">WrenchDesk</span>
-        </div>
+        </Link>
         
         <DashboardNav />
 
@@ -67,12 +68,12 @@ export default async function DashboardLayout({
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Mobile Header */}
         <header className="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/dashboard" className="flex items-center gap-2">
             <div className="bg-indigo-600 p-1.5 rounded-lg">
               <Wrench className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-lg tracking-tight text-slate-900">WrenchDesk</span>
-          </div>
+          </Link>
           <button className="p-2 text-slate-600">
             <Menu className="w-6 h-6" />
           </button>
