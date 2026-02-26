@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Plus, Download, FileText, Filter, MoreHorizontal, Edit2, Trash2 } from 'lucide-react'
+import { Plus, Download, FileText, Filter, MoreHorizontal, Edit2, Trash2, Search } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { InvoiceDialog } from './invoice-dialog'
 import { deleteInvoice } from '@/app/dashboard/invoices/actions'
@@ -34,11 +34,20 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
   const [invoiceToDelete, setInvoiceToDelete] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [statusFilter, setStatusFilter] = useState<string>('All')
+  const [searchQuery, setSearchQuery] = useState('')
 
   const filteredInvoices = useMemo(() => {
-    if (statusFilter === 'All') return initialInvoices
-    return initialInvoices.filter(inv => inv.status === statusFilter)
-  }, [initialInvoices, statusFilter])
+    return initialInvoices.filter(inv => {
+      const matchesStatus = statusFilter === 'All' || inv.status === statusFilter
+      const searchLower = searchQuery.toLowerCase()
+      const matchesSearch = 
+        inv.invoice_number.toLowerCase().includes(searchLower) ||
+        (inv.customers?.name || '').toLowerCase().includes(searchLower) ||
+        inv.status.toLowerCase().includes(searchLower)
+      
+      return matchesStatus && matchesSearch
+    })
+  }, [initialInvoices, statusFilter, searchQuery])
 
   const stats = useMemo(() => {
     const outstanding = initialInvoices
@@ -165,7 +174,17 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
 
       <Card className="border-slate-200 shadow-sm overflow-hidden">
         <CardHeader className="border-b border-slate-100 bg-slate-50/50 p-4">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input 
+                type="text"
+                placeholder="Search by invoice #, customer, or status..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white"
+              />
+            </div>
             <div className="flex items-center gap-2">
               <div className="flex bg-white border border-slate-200 rounded-lg p-1">
                 {['All', 'Paid', 'Pending', 'Overdue'].map((status) => (
