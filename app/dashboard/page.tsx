@@ -13,69 +13,66 @@ export default async function DashboardPage() {
   today.setHours(0, 0, 0, 0)
   const tomorrow = new Date(today)
   tomorrow.setDate(today.getDate() + 1)
+  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
 
-  // 1. Today's Jobs
-  const { data: todayJobs } = await supabase
-    .from('appointments')
-    .select('*')
-    .gte('scheduled_time', today.toISOString())
-    .lt('scheduled_time', tomorrow.toISOString())
-    .eq('user_id', user.id)
+  // Parallelize data fetching
+  const [
+    { data: todayJobs },
+    { count: customerCount },
+    { data: unpaidInvoices },
+    { data: monthlyRevenueData },
+    { data: upcomingJobs },
+    { data: recentInvoices }
+  ] = await Promise.all([
+    supabase
+      .from('appointments')
+      .select('*')
+      .gte('scheduled_time', today.toISOString())
+      .lt('scheduled_time', tomorrow.toISOString())
+      .eq('user_id', user.id),
+    supabase
+      .from('customers')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', user.id),
+    supabase
+      .from('invoices')
+      .select('*')
+      .in('status', ['Pending', 'Overdue'])
+      .eq('user_id', user.id),
+    supabase
+      .from('invoices')
+      .select('amount')
+      .eq('status', 'Paid')
+      .gte('created_at', firstDayOfMonth.toISOString())
+      .eq('user_id', user.id),
+    supabase
+      .from('appointments')
+      .select(`
+        *,
+        customers (
+          name,
+          address
+        )
+      `)
+      .gte('scheduled_time', new Date().toISOString())
+      .eq('user_id', user.id)
+      .order('scheduled_time', { ascending: true })
+      .limit(5),
+    supabase
+      .from('invoices')
+      .select(`
+        *,
+        customers (name)
+      `)
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(3)
+  ])
 
   const completedToday = todayJobs?.filter(j => j.status === 'Completed').length || 0
   const remainingToday = (todayJobs?.length || 0) - completedToday
-
-  // 2. Active Customers
-  const { count: customerCount } = await supabase
-    .from('customers')
-    .select('*', { count: 'exact', head: true })
-    .eq('user_id', user.id)
-
-  // 3. Unpaid Invoices
-  const { data: unpaidInvoices } = await supabase
-    .from('invoices')
-    .select('*')
-    .in('status', ['Pending', 'Overdue'])
-    .eq('user_id', user.id)
-
   const overdueCount = unpaidInvoices?.filter(i => i.status === 'Overdue').length || 0
-
-  // 4. Revenue (MTD)
-  const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1)
-  const { data: monthlyRevenueData } = await supabase
-    .from('invoices')
-    .select('amount')
-    .eq('status', 'Paid')
-    .gte('created_at', firstDayOfMonth.toISOString())
-    .eq('user_id', user.id)
-
   const monthlyRevenue = monthlyRevenueData?.reduce((sum, inv) => sum + Number(inv.amount), 0) || 0
-
-  // 5. Upcoming Schedule
-  const { data: upcomingJobs } = await supabase
-    .from('appointments')
-    .select(`
-      *,
-      customers (
-        name,
-        address
-      )
-    `)
-    .gte('scheduled_time', new Date().toISOString())
-    .eq('user_id', user.id)
-    .order('scheduled_time', { ascending: true })
-    .limit(5)
-
-  // 6. Recent Activity (Combined)
-  const { data: recentInvoices } = await supabase
-    .from('invoices')
-    .select(`
-      *,
-      customers (name)
-    `)
-    .eq('user_id', user.id)
-    .order('created_at', { ascending: false })
-    .limit(3)
 
   return (
     <div className="p-6 lg:p-8 max-w-7xl mx-auto">
