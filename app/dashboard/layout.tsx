@@ -1,9 +1,9 @@
 import { DashboardNav } from '@/components/dashboard-nav'
+import { MobileSidebar } from '@/components/mobile-sidebar'
 import Link from 'next/link'
 import { 
   LogOut,
   Wrench,
-  Menu,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
@@ -66,18 +66,7 @@ export default async function DashboardLayout({
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Mobile Header */}
-        <header className="md:hidden bg-white border-b border-slate-200 p-4 flex items-center justify-between">
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <div className="bg-indigo-600 p-1.5 rounded-lg">
-              <Wrench className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-lg tracking-tight text-slate-900">WrenchDesk</span>
-          </Link>
-          <button className="p-2 text-slate-600">
-            <Menu className="w-6 h-6" />
-          </button>
-        </header>
+        <MobileSidebar />
 
         <main className="flex-1 overflow-y-auto">
           {children}

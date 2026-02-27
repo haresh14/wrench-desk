@@ -17,12 +17,12 @@ export default async function HomePage() {
       {/* Navigation */}
       <header className="border-b border-slate-200 bg-white sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2">
             <div className="bg-indigo-600 p-1.5 rounded-lg">
               <Wrench className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-xl tracking-tight text-slate-900">WrenchDesk</span>
-          </div>
+          </Link>
           <nav className="hidden md:flex items-center gap-8">
             <Link href="#features" className="text-sm font-medium text-slate-600 hover:text-slate-900">Features</Link>
             <Link href="#solutions" className="text-sm font-medium text-slate-600 hover:text-slate-900">Solutions</Link>
@@ -128,12 +128,12 @@ export default async function HomePage() {
       <footer className="bg-slate-900 text-slate-400 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
+            <Link href={user ? "/dashboard" : "/"} className="flex items-center gap-2 mb-4 inline-flex">
               <div className="bg-indigo-500 p-1.5 rounded-lg">
                 <Wrench className="w-5 h-5 text-white" />
               </div>
               <span className="font-bold text-xl tracking-tight text-white">WrenchDesk</span>
-            </div>
+            </Link>
             <p className="text-sm">
               The modern operating system for field service businesses.
             </p>

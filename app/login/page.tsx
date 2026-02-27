@@ -14,9 +14,9 @@ export default async function LoginPage({
     <div className="min-h-screen flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
         <div className="flex flex-col items-center">
-          <div className="bg-indigo-600 p-2 rounded-xl mb-4">
+          <Link href="/" className="bg-indigo-600 p-2 rounded-xl mb-4 hover:bg-indigo-700 transition-colors">
             <Wrench className="w-8 h-8 text-white" />
-          </div>
+          </Link>
           <h2 className="text-center text-3xl font-bold tracking-tight text-slate-900">
             Sign in to your account
           </h2>
