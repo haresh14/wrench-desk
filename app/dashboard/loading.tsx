@@ -11,7 +11,7 @@ export default function DashboardLoading() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
         {[...Array(4)].map((_, i) => (
-          <Card key={i} className="border-slate-200 shadow-sm">
+          <Card key={i} className="border-zinc-200 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-8 w-8 rounded-lg" />
@@ -25,15 +25,15 @@ export default function DashboardLoading() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="lg:col-span-2 border-slate-200 shadow-sm">
-          <CardHeader className="border-b border-slate-50">
+        <Card className="lg:col-span-2 border-zinc-200 shadow-sm">
+          <CardHeader className="border-b border-zinc-50">
             <div className="flex items-center justify-between">
               <Skeleton className="h-6 w-40" />
               <Skeleton className="h-4 w-24" />
             </div>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y divide-slate-50">
+            <div className="divide-y divide-zinc-50">
               {[...Array(5)].map((_, i) => (
                 <div key={i} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-4">
@@ -50,12 +50,12 @@ export default function DashboardLoading() {
           </CardContent>
         </Card>
 
-        <Card className="border-slate-200 shadow-sm">
-          <CardHeader className="border-b border-slate-50">
+        <Card className="border-zinc-200 shadow-sm">
+          <CardHeader className="border-b border-zinc-50">
             <Skeleton className="h-6 w-32" />
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y divide-slate-50">
+            <div className="divide-y divide-zinc-50">
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="p-4 flex items-start gap-3">
                   <Skeleton className="h-8 w-8 rounded-lg" />

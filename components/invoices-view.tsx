@@ -124,13 +124,13 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Invoices</h1>
-          <p className="text-slate-600 mt-1">Create and manage billing for your service jobs.</p>
+          <h1 className="text-2xl font-bold text-zinc-900">Invoices</h1>
+          <p className="text-zinc-600 mt-1">Create and manage billing for your service jobs.</p>
         </div>
         <div className="flex gap-2">
           <button 
             onClick={handleExport}
-            className="flex items-center justify-center gap-2 bg-white text-slate-700 border border-slate-200 px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors shadow-sm font-medium"
+            className="flex items-center justify-center gap-2 bg-white text-zinc-700 border border-zinc-200 px-4 py-2 rounded-lg hover:bg-zinc-50 transition-colors shadow-sm font-medium"
           >
             <Download className="w-4 h-4" />
             Export
@@ -149,44 +149,44 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
       </div>
 
       <div className="grid gap-6 md:grid-cols-3 mb-8">
-        <Card className="border-slate-200 shadow-sm">
+        <Card className="border-zinc-200 shadow-sm">
           <CardContent className="pt-6">
-            <div className="text-sm font-medium text-slate-500 mb-1">Total Outstanding</div>
-            <div className="text-2xl font-bold text-slate-900">${stats.outstanding.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+            <div className="text-sm font-medium text-zinc-500 mb-1">Total Outstanding</div>
+            <div className="text-2xl font-bold text-zinc-900">${stats.outstanding.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
             <div className="text-xs text-amber-600 mt-1">{stats.pendingCount} invoices pending</div>
           </CardContent>
         </Card>
-        <Card className="border-slate-200 shadow-sm">
+        <Card className="border-zinc-200 shadow-sm">
           <CardContent className="pt-6">
-            <div className="text-sm font-medium text-slate-500 mb-1">Paid (Total)</div>
-            <div className="text-2xl font-bold text-slate-900">${stats.paidThisMonth.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+            <div className="text-sm font-medium text-zinc-500 mb-1">Paid (Total)</div>
+            <div className="text-2xl font-bold text-zinc-900">${stats.paidThisMonth.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
             <div className="text-xs text-emerald-600 mt-1">All time paid invoices</div>
           </CardContent>
         </Card>
-        <Card className="border-slate-200 shadow-sm">
+        <Card className="border-zinc-200 shadow-sm">
           <CardContent className="pt-6">
-            <div className="text-sm font-medium text-slate-500 mb-1">Overdue</div>
-            <div className="text-2xl font-bold text-slate-900">${initialInvoices.filter(inv => inv.status === 'Overdue').reduce((sum, inv) => sum + Number(inv.amount), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
+            <div className="text-sm font-medium text-zinc-500 mb-1">Overdue</div>
+            <div className="text-2xl font-bold text-zinc-900">${initialInvoices.filter(inv => inv.status === 'Overdue').reduce((sum, inv) => sum + Number(inv.amount), 0).toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
             <div className="text-xs text-red-600 mt-1">{stats.overdueCount} invoices overdue</div>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="border-slate-200 shadow-sm overflow-hidden">
-        <CardHeader className="border-b border-slate-100 bg-slate-50/50 p-4">
+      <Card className="border-zinc-200 shadow-sm overflow-hidden">
+        <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 p-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
               <input 
                 type="text"
                 placeholder="Search by invoice #, customer, or status..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white"
+                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all bg-white"
               />
             </div>
             <div className="flex items-center gap-2">
-              <div className="flex bg-white border border-slate-200 rounded-lg p-1">
+              <div className="flex bg-white border border-zinc-200 rounded-lg p-1">
                 {['All', 'Paid', 'Pending', 'Overdue'].map((status) => (
                   <button
                     key={status}
@@ -194,7 +194,7 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
                     className={`px-3 py-1 text-xs font-bold rounded-md transition-all ${
                       statusFilter === status 
                         ? 'bg-indigo-600 text-white shadow-sm' 
-                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                        : 'text-zinc-500 hover:text-zinc-900 hover:bg-zinc-50'
                     }`}
                   >
                     {status}
@@ -208,34 +208,34 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50">
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Invoice</th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Customer</th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Due Date</th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Amount</th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                <tr className="border-b border-zinc-100 bg-zinc-50/50">
+                  <th className="px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Invoice</th>
+                  <th className="px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Customer</th>
+                  <th className="px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Due Date</th>
+                  <th className="px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Amount</th>
+                  <th className="px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider">Status</th>
+                  <th className="px-6 py-3 text-xs font-semibold text-zinc-500 uppercase tracking-wider text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-zinc-100">
                 {filteredInvoices.length > 0 ? (
                   filteredInvoices.map((invoice) => (
-                    <tr key={invoice.id} className="hover:bg-slate-50 transition-colors group">
+                    <tr key={invoice.id} className="hover:bg-zinc-50 transition-colors group">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="p-2 bg-slate-100 rounded-lg text-slate-600">
+                          <div className="p-2 bg-zinc-100 rounded-lg text-zinc-600">
                             <FileText className="w-4 h-4" />
                           </div>
-                          <span className="font-bold text-slate-900">{invoice.invoice_number}</span>
+                          <span className="font-bold text-zinc-900">{invoice.invoice_number}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-900 font-medium">
+                      <td className="px-6 py-4 text-sm text-zinc-900 font-medium">
                         {invoice.customers?.name || 'Unknown Customer'}
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-600">
+                      <td className="px-6 py-4 text-sm text-zinc-600">
                         {invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : 'No date'}
                       </td>
-                      <td className="px-6 py-4 text-sm font-bold text-slate-900">
+                      <td className="px-6 py-4 text-sm font-bold text-zinc-900">
                         ${Number(invoice.amount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
                       </td>
                       <td className="px-6 py-4">
@@ -250,7 +250,7 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
                       <td className="px-6 py-4 text-right relative">
                         <button 
                           onClick={() => setActiveMenu(activeMenu === invoice.id ? null : invoice.id)}
-                          className="p-2 text-slate-400 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition-all"
+                          className="p-2 text-zinc-400 hover:text-zinc-900 rounded-lg hover:bg-zinc-100 transition-all"
                         >
                           <MoreHorizontal className="w-4 h-4" />
                         </button>
@@ -258,12 +258,12 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
                         {activeMenu === invoice.id && (
                           <>
                             <div className="fixed inset-0 z-10" onClick={() => setActiveMenu(null)} />
-                            <div className="absolute right-6 top-12 z-20 w-40 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                            <div className="absolute right-6 top-12 z-20 w-40 bg-white rounded-xl shadow-xl border border-zinc-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                               <button 
                                 onClick={() => handleEdit(invoice)}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 text-left transition-colors"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-zinc-700 hover:bg-zinc-50 text-left transition-colors"
                               >
-                                <Edit2 className="w-4 h-4 text-slate-400" />
+                                <Edit2 className="w-4 h-4 text-zinc-400" />
                                 Edit
                               </button>
                               <button 
@@ -271,7 +271,7 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
                                   setInvoiceToDelete(invoice.id)
                                   setActiveMenu(null)
                                 }}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 text-left transition-colors border-t border-slate-50"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 text-left transition-colors border-t border-zinc-50"
                               >
                                 <Trash2 className="w-4 h-4 text-red-400" />
                                 Delete
@@ -284,7 +284,7 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={6} className="px-6 py-12 text-center text-slate-500 italic">
+                    <td colSpan={6} className="px-6 py-12 text-center text-zinc-500 italic">
                       No invoices found.
                     </td>
                   </tr>
@@ -305,27 +305,27 @@ export function InvoicesView({ initialInvoices, customers }: InvoicesViewProps) 
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {invoiceToDelete && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-900/40 backdrop-blur-sm">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl border border-zinc-100 w-full max-w-md overflow-hidden"
             >
               <div className="p-6">
                 <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4">
                   <Trash2 className="w-6 h-6 text-red-500" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900">Delete Invoice?</h3>
-                <p className="text-slate-500 mt-2">
+                <h3 className="text-xl font-bold text-zinc-900">Delete Invoice?</h3>
+                <p className="text-zinc-500 mt-2">
                   This action cannot be undone. This invoice will be permanently removed.
                 </p>
               </div>
-              <div className="flex items-center gap-3 p-4 bg-slate-50 border-t border-slate-100">
+              <div className="flex items-center gap-3 p-4 bg-zinc-50 border-t border-zinc-100">
                 <button 
                   onClick={() => setInvoiceToDelete(null)}
                   disabled={isDeleting}
-                  className="flex-1 px-4 py-2.5 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2.5 text-sm font-bold text-zinc-700 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>

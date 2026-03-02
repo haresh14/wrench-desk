@@ -18,8 +18,8 @@ export default async function SettingsPage() {
     <PageTransition>
       <div className="p-6 lg:p-8 max-w-4xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-900">Settings</h1>
-          <p className="text-slate-600 mt-1">Manage your account and business preferences.</p>
+          <h1 className="text-2xl font-bold text-zinc-900">Settings</h1>
+          <p className="text-zinc-600 mt-1">Manage your account and business preferences.</p>
         </div>
 
         <SettingsView 

@@ -12,8 +12,8 @@ export default function ScheduleLoading() {
         <Skeleton className="h-10 w-40 rounded-lg" />
       </div>
 
-      <Card className="border-slate-200 shadow-sm overflow-hidden">
-        <CardHeader className="border-b border-slate-100 bg-slate-50/50 p-4">
+      <Card className="border-zinc-200 shadow-sm overflow-hidden">
+        <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 p-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <Skeleton className="h-10 w-full max-w-md rounded-xl" />
             <Skeleton className="h-10 w-48 rounded-lg" />
@@ -23,7 +23,7 @@ export default function ScheduleLoading() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50">
+                <tr className="border-b border-zinc-100 bg-zinc-50/50">
                   {[...Array(5)].map((_, i) => (
                     <th key={i} className="px-6 py-3">
                       <Skeleton className="h-3 w-20" />
@@ -34,7 +34,7 @@ export default function ScheduleLoading() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-zinc-100">
                 {[...Array(6)].map((_, i) => (
                   <tr key={i}>
                     <td className="px-6 py-4">

@@ -56,14 +56,14 @@ export function InvoiceDialog({ isOpen, onClose, invoice, customers }: InvoiceDi
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-900/50 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
-        <div className="flex items-center justify-between p-6 border-b border-slate-100">
-          <h2 className="text-xl font-bold text-slate-900">
+        <div className="flex items-center justify-between p-6 border-b border-zinc-100">
+          <h2 className="text-xl font-bold text-zinc-900">
             {invoice ? 'Edit Invoice' : 'Create Invoice'}
           </h2>
-          <button onClick={onClose} className="p-2 hover:bg-slate-100 rounded-full transition-colors">
-            <X className="w-5 h-5 text-slate-500" />
+          <button onClick={onClose} className="p-2 hover:bg-zinc-100 rounded-full transition-colors">
+            <X className="w-5 h-5 text-zinc-500" />
           </button>
         </div>
 
@@ -75,12 +75,12 @@ export function InvoiceDialog({ isOpen, onClose, invoice, customers }: InvoiceDi
           )}
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Customer</label>
+            <label className="text-sm font-semibold text-zinc-700">Customer</label>
             <select 
               name="customer_id" 
               required
               defaultValue={invoice?.customer_id || ''}
-              className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+              className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
             >
               <option value="" disabled>Select a customer</option>
               {customers.map(customer => (
@@ -91,7 +91,7 @@ export function InvoiceDialog({ isOpen, onClose, invoice, customers }: InvoiceDi
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-700">Amount ($)</label>
+              <label className="text-sm font-semibold text-zinc-700">Amount ($)</label>
               <input 
                 type="number" 
                 name="amount" 
@@ -99,15 +99,15 @@ export function InvoiceDialog({ isOpen, onClose, invoice, customers }: InvoiceDi
                 required
                 placeholder="0.00"
                 defaultValue={invoice?.amount || ''}
-                className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-700">Status</label>
+              <label className="text-sm font-semibold text-zinc-700">Status</label>
               <select 
                 name="status" 
                 defaultValue={invoice?.status || 'Pending'}
-                className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               >
                 <option value="Pending">Pending</option>
                 <option value="Paid">Paid</option>
@@ -118,23 +118,23 @@ export function InvoiceDialog({ isOpen, onClose, invoice, customers }: InvoiceDi
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Due Date</label>
+            <label className="text-sm font-semibold text-zinc-700">Due Date</label>
             <input 
               type="date" 
               name="due_date" 
               defaultValue={invoice?.due_date ? new Date(invoice.due_date).toISOString().split('T')[0] : ''}
-              className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+              className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-sm font-semibold text-slate-700">Invoice Number (Optional)</label>
+            <label className="text-sm font-semibold text-zinc-700">Invoice Number (Optional)</label>
             <input 
               type="text" 
               name="invoice_number" 
               placeholder="e.g. INV-001"
               defaultValue={invoice?.invoice_number || ''}
-              className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+              className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
             />
           </div>
 
@@ -142,7 +142,7 @@ export function InvoiceDialog({ isOpen, onClose, invoice, customers }: InvoiceDi
             <button 
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors"
+              className="flex-1 px-4 py-2.5 text-sm font-bold text-zinc-700 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors"
             >
               Cancel
             </button>

@@ -178,8 +178,8 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Schedule</h1>
-          <p className="text-slate-600 mt-1">Dispatch and manage your field service appointments.</p>
+          <h1 className="text-2xl font-bold text-zinc-900">Schedule</h1>
+          <p className="text-zinc-600 mt-1">Dispatch and manage your field service appointments.</p>
         </div>
         <button 
           onClick={() => {
@@ -196,25 +196,25 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
       <div className="grid lg:grid-cols-4 gap-8">
         {/* Calendar Sidebar */}
         <div className="lg:col-span-1 space-y-6">
-          <Card className="overflow-hidden border-slate-200 shadow-sm">
-            <CardHeader className="p-4 border-b border-slate-100 bg-slate-50/50">
+          <Card className="overflow-hidden border-zinc-200 shadow-sm">
+            <CardHeader className="p-4 border-b border-zinc-100 bg-zinc-50/50">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-sm text-slate-900">
+                  <span className="font-bold text-sm text-zinc-900">
                     {currentMonth.toLocaleString('default', { month: 'long', year: 'numeric' })}
                   </span>
                   <div className="flex gap-1">
                     <button 
                       onClick={prevMonth}
-                      className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 rounded-md transition-all"
+                      className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-zinc-200 rounded-md transition-all"
                     >
-                      <ChevronLeft className="w-4 h-4 text-slate-600" />
+                      <ChevronLeft className="w-4 h-4 text-zinc-600" />
                     </button>
                     <button 
                       onClick={nextMonth}
-                      className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-200 rounded-md transition-all"
+                      className="p-1.5 hover:bg-white hover:shadow-sm border border-transparent hover:border-zinc-200 rounded-md transition-all"
                     >
-                      <ChevronRight className="w-4 h-4 text-slate-600" />
+                      <ChevronRight className="w-4 h-4 text-zinc-600" />
                     </button>
                   </div>
                 </div>
@@ -228,7 +228,7 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
               </div>
             </CardHeader>
             <CardContent className="p-4 relative overflow-hidden min-h-[260px]">
-              <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-slate-400 uppercase mb-3">
+              <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold text-zinc-400 uppercase mb-3">
                 <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
               </div>
               
@@ -259,7 +259,7 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                             ? 'bg-indigo-600 text-white font-bold shadow-md shadow-indigo-200' 
                             : isToday
                               ? 'bg-indigo-50 text-indigo-600 font-bold'
-                              : 'text-slate-600 hover:bg-slate-100'
+                              : 'text-zinc-600 hover:bg-zinc-100'
                         }`}
                       >
                         {date.getDate()}
@@ -274,19 +274,19 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
             </CardContent>
           </Card>
 
-          <Card className="border-slate-200 shadow-sm">
-            <CardHeader className="p-4 border-b border-slate-100 bg-slate-50/50">
-              <CardTitle className="text-sm font-bold text-slate-900">Technicians</CardTitle>
+          <Card className="border-zinc-200 shadow-sm">
+            <CardHeader className="p-4 border-b border-zinc-100 bg-zinc-50/50">
+              <CardTitle className="text-sm font-bold text-zinc-900">Technicians</CardTitle>
             </CardHeader>
             <CardContent className="p-4 space-y-3">
               {Array.from(new Set(initialAppointments.map(a => a.technician_name))).map((tech) => (
                 <div key={tech} className="flex items-center gap-3">
                   <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]" />
-                  <span className="text-sm font-medium text-slate-700">{tech}</span>
+                  <span className="text-sm font-medium text-zinc-700">{tech}</span>
                 </div>
               ))}
               {initialAppointments.length === 0 && (
-                <p className="text-xs text-slate-400 italic">No active technicians</p>
+                <p className="text-xs text-zinc-400 italic">No active technicians</p>
               )}
             </CardContent>
           </Card>
@@ -299,26 +299,26 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
               <div className="bg-indigo-100 p-2 rounded-lg">
                 <CalendarIcon className="w-5 h-5 text-indigo-600" />
               </div>
-              <h2 className="font-bold text-lg text-slate-900">
+              <h2 className="font-bold text-lg text-zinc-900">
                 {viewHeading}
               </h2>
             </div>
-            <div className="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+            <div className="flex bg-zinc-100 p-1 rounded-xl border border-zinc-200">
               <button 
                 onClick={() => setViewType('day')}
-                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'day' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'day' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
               >
                 Day
               </button>
               <button 
                 onClick={() => setViewType('week')}
-                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'week' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'week' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
               >
                 Week
               </button>
               <button 
                 onClick={() => setViewType('month')}
-                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'month' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-900'}`}
+                className={`px-4 py-1.5 text-xs font-bold rounded-lg transition-all ${viewType === 'month' ? 'bg-white text-zinc-900 shadow-sm' : 'text-zinc-500 hover:text-zinc-900'}`}
               >
                 Month
               </button>
@@ -328,37 +328,37 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
           <div className="space-y-3">
             {filteredAppointments.length > 0 ? (
               filteredAppointments.map((job) => (
-                <Card key={job.id} className="hover:border-indigo-300 hover:shadow-md transition-all group relative border-slate-200">
+                <Card key={job.id} className="hover:border-indigo-300 hover:shadow-md transition-all group relative border-zinc-200">
                   <div className={`absolute left-0 top-0 bottom-0 w-1 z-10 ${
                     job.status === 'In Progress' ? 'bg-blue-500' : 
                     job.status === 'Completed' ? 'bg-emerald-500' :
-                    'bg-slate-300'
+                    'bg-zinc-300'
                   }`} />
                   <CardContent className="p-4 sm:p-5">
                     <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 sm:gap-6">
                       <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
-                        <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center bg-slate-50 px-4 py-3 rounded-xl border border-slate-100 min-w-[110px] shadow-inner">
+                        <div className="flex flex-row sm:flex-col items-center justify-between sm:justify-center bg-zinc-50 px-4 py-3 rounded-xl border border-zinc-100 min-w-[110px] shadow-inner">
                           <span className="text-sm font-black text-indigo-600">{formatTime(job.scheduled_time)}</span>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{job.duration}</span>
+                          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">{job.duration}</span>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-bold text-lg text-slate-900 group-hover:text-indigo-600 transition-colors truncate">{job.customers?.name || 'Unknown Customer'}</h3>
+                          <h3 className="font-bold text-lg text-zinc-900 group-hover:text-indigo-600 transition-colors truncate">{job.customers?.name || 'Unknown Customer'}</h3>
                           <div className="flex items-center gap-2 mt-1">
-                            <span className="text-sm font-medium text-slate-500">{job.job_type}</span>
-                            <span className="w-1 h-1 rounded-full bg-slate-300" />
-                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">#{job.id.slice(0, 8)}</span>
+                            <span className="text-sm font-medium text-zinc-500">{job.job_type}</span>
+                            <span className="w-1 h-1 rounded-full bg-zinc-300" />
+                            <span className="text-xs font-bold text-zinc-400 uppercase tracking-widest">#{job.id.slice(0, 8)}</span>
                           </div>
                         </div>
                       </div>
                       
                       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6 text-sm">
                         <div className="flex flex-wrap items-center gap-3 sm:gap-6 w-full sm:w-auto">
-                          <div className="flex items-center gap-2 text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 flex-1 sm:flex-none">
-                            <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
+                          <div className="flex items-center gap-2 text-zinc-600 bg-zinc-50 px-3 py-1.5 rounded-lg border border-zinc-100 flex-1 sm:flex-none">
+                            <MapPin className="w-4 h-4 text-zinc-400 shrink-0" />
                             <span className="max-w-[150px] sm:max-w-[180px] truncate font-medium">{job.customers?.address || 'No address'}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 flex-1 sm:flex-none">
-                            <User className="w-4 h-4 text-slate-400 shrink-0" />
+                          <div className="flex items-center gap-2 text-zinc-600 bg-zinc-50 px-3 py-1.5 rounded-lg border border-zinc-100 flex-1 sm:flex-none">
+                            <User className="w-4 h-4 text-zinc-400 shrink-0" />
                             <span className="font-medium truncate">{job.technician_name}</span>
                           </div>
                         </div>
@@ -367,7 +367,7 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                           <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm whitespace-nowrap ${
                             job.status === 'In Progress' ? 'bg-blue-500 text-white' : 
                             job.status === 'Completed' ? 'bg-emerald-500 text-white' :
-                            'bg-slate-100 text-slate-600 border border-slate-200'
+                            'bg-zinc-100 text-zinc-600 border border-zinc-200'
                           }`}>
                             {job.status}
                           </span>
@@ -378,7 +378,7 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                                 e.stopPropagation()
                                 setActiveMenu(activeMenu === job.id ? null : job.id)
                               }}
-                              className="p-2 text-slate-400 hover:text-slate-900 rounded-xl hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                              className="p-2 text-zinc-400 hover:text-zinc-900 rounded-xl hover:bg-zinc-100 transition-all border border-transparent hover:border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             >
                               <MoreVertical className="w-5 h-5" />
                             </button>
@@ -389,12 +389,12 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                                   className="fixed inset-0 z-20" 
                                   onClick={() => setActiveMenu(null)}
                                 />
-                                <div className="absolute right-0 top-full mt-2 z-30 w-48 bg-white rounded-xl shadow-2xl border border-slate-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ring-4 ring-slate-50">
+                                <div className="absolute right-0 top-full mt-2 z-30 w-48 bg-white rounded-xl shadow-2xl border border-zinc-100 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200 ring-4 ring-zinc-50">
                                   <button 
                                     onClick={() => handleEdit(job)}
-                                    className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 text-left transition-colors"
+                                    className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-zinc-700 hover:bg-zinc-50 text-left transition-colors"
                                   >
-                                    <Edit2 className="w-4 h-4 text-slate-400" />
+                                    <Edit2 className="w-4 h-4 text-zinc-400" />
                                     Edit Details
                                   </button>
                                   <button 
@@ -402,7 +402,7 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                                       setAppointmentToDelete(job.id)
                                       setActiveMenu(null)
                                     }}
-                                    className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-red-600 hover:bg-red-50 text-left transition-colors border-t border-slate-50"
+                                    className="w-full flex items-center gap-3 px-4 py-3.5 text-sm font-semibold text-red-600 hover:bg-red-50 text-left transition-colors border-t border-zinc-50"
                                   >
                                     <Trash2 className="w-4 h-4 text-red-400" />
                                     Delete Job
@@ -418,12 +418,12 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
                 </Card>
               ))
             ) : (
-              <div className="py-20 text-center bg-white rounded-3xl border-2 border-dashed border-slate-100 flex flex-col items-center justify-center">
-                <div className="bg-slate-50 p-4 rounded-full mb-4">
-                  <CalendarIcon className="w-8 h-8 text-slate-300" />
+              <div className="py-20 text-center bg-white rounded-3xl border-2 border-dashed border-zinc-100 flex flex-col items-center justify-center">
+                <div className="bg-zinc-50 p-4 rounded-full mb-4">
+                  <CalendarIcon className="w-8 h-8 text-zinc-300" />
                 </div>
-                <h3 className="font-bold text-slate-900">No appointments for this {viewType}</h3>
-                <p className="text-slate-500 text-sm mt-1">Enjoy the quiet time or schedule a new job.</p>
+                <h3 className="font-bold text-zinc-900">No appointments for this {viewType}</h3>
+                <p className="text-zinc-500 text-sm mt-1">Enjoy the quiet time or schedule a new job.</p>
                 <button 
                   onClick={() => setIsDialogOpen(true)}
                   className="mt-6 text-sm font-bold text-indigo-600 hover:text-indigo-700 underline underline-offset-4"
@@ -446,27 +446,27 @@ export function ScheduleView({ initialAppointments, customers }: ScheduleViewPro
       {/* Delete Confirmation Modal */}
       <AnimatePresence>
         {appointmentToDelete && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-zinc-900/40 backdrop-blur-sm">
             <motion.div 
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="bg-white rounded-2xl shadow-2xl border border-slate-100 w-full max-w-md overflow-hidden"
+              className="bg-white rounded-2xl shadow-2xl border border-zinc-100 w-full max-w-md overflow-hidden"
             >
               <div className="p-6">
                 <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mb-4">
                   <Trash2 className="w-6 h-6 text-red-500" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-900">Delete Appointment?</h3>
-                <p className="text-slate-500 mt-2">
+                <h3 className="text-xl font-bold text-zinc-900">Delete Appointment?</h3>
+                <p className="text-zinc-500 mt-2">
                   This action cannot be undone. This appointment will be permanently removed from your schedule.
                 </p>
               </div>
-              <div className="flex items-center gap-3 p-4 bg-slate-50 border-t border-slate-100">
+              <div className="flex items-center gap-3 p-4 bg-zinc-50 border-t border-zinc-100">
                 <button 
                   onClick={() => setAppointmentToDelete(null)}
                   disabled={isDeleting}
-                  className="flex-1 px-4 py-2.5 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 transition-colors disabled:opacity-50"
+                  className="flex-1 px-4 py-2.5 text-sm font-bold text-zinc-700 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>

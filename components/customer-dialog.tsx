@@ -44,13 +44,13 @@ export function CustomerDialog({ isOpen, onClose, customer }: CustomerDialogProp
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-        <div className="flex items-center justify-between p-6 border-b border-slate-100">
-          <h2 className="text-xl font-bold text-slate-900">
+        <div className="flex items-center justify-between p-6 border-b border-zinc-100">
+          <h2 className="text-xl font-bold text-zinc-900">
             {customer ? 'Edit Customer' : 'Add New Customer'}
           </h2>
           <button 
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
+            className="p-2 text-zinc-400 hover:text-zinc-600 rounded-lg hover:bg-zinc-100 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -58,7 +58,7 @@ export function CustomerDialog({ isOpen, onClose, customer }: CustomerDialogProp
 
         <form action={handleSubmit} className="p-6 space-y-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-zinc-700 mb-1">
               Full Name
             </label>
             <input
@@ -67,13 +67,13 @@ export function CustomerDialog({ isOpen, onClose, customer }: CustomerDialogProp
               type="text"
               required
               defaultValue={customer?.name}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 rounded-lg border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               placeholder="John Doe"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-zinc-700 mb-1">
               Email Address
             </label>
             <input
@@ -81,13 +81,13 @@ export function CustomerDialog({ isOpen, onClose, customer }: CustomerDialogProp
               name="email"
               type="email"
               defaultValue={customer?.email ?? ''}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 rounded-lg border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               placeholder="john@example.com"
             />
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">
+            <label htmlFor="phone" className="block text-sm font-medium text-zinc-700 mb-1">
               Phone Number
             </label>
             <input
@@ -95,13 +95,13 @@ export function CustomerDialog({ isOpen, onClose, customer }: CustomerDialogProp
               name="phone"
               type="tel"
               defaultValue={customer?.phone ?? ''}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 rounded-lg border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
               placeholder="(555) 000-0000"
             />
           </div>
 
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-slate-700 mb-1">
+            <label htmlFor="address" className="block text-sm font-medium text-zinc-700 mb-1">
               Address
             </label>
             <textarea
@@ -109,20 +109,20 @@ export function CustomerDialog({ isOpen, onClose, customer }: CustomerDialogProp
               name="address"
               rows={2}
               defaultValue={customer?.address ?? ''}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm resize-none"
+              className="w-full px-3 py-2 rounded-lg border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm resize-none"
               placeholder="123 Main St, City, State"
             />
           </div>
 
           <div>
-            <label htmlFor="status" className="block text-sm font-medium text-slate-700 mb-1">
+            <label htmlFor="status" className="block text-sm font-medium text-zinc-700 mb-1">
               Status
             </label>
             <select
               id="status"
               name="status"
               defaultValue={customer?.status ?? 'Active'}
-              className="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
+              className="w-full px-3 py-2 rounded-lg border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm"
             >
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
@@ -134,7 +134,7 @@ export function CustomerDialog({ isOpen, onClose, customer }: CustomerDialogProp
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors"
+              className="flex-1 px-4 py-2 text-sm font-medium text-zinc-700 bg-white border border-zinc-200 rounded-lg hover:bg-zinc-50 transition-colors"
             >
               Cancel
             </button>

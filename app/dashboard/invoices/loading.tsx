@@ -17,7 +17,7 @@ export default function InvoicesLoading() {
 
       <div className="grid gap-6 md:grid-cols-3 mb-8">
         {[...Array(3)].map((_, i) => (
-          <Card key={i} className="border-slate-200 shadow-sm">
+          <Card key={i} className="border-zinc-200 shadow-sm">
             <CardContent className="pt-6">
               <Skeleton className="h-4 w-32 mb-2" />
               <Skeleton className="h-8 w-24 mb-2" />
@@ -27,8 +27,8 @@ export default function InvoicesLoading() {
         ))}
       </div>
 
-      <Card className="border-slate-200 shadow-sm overflow-hidden">
-        <CardHeader className="border-b border-slate-100 bg-slate-50/50 p-4">
+      <Card className="border-zinc-200 shadow-sm overflow-hidden">
+        <CardHeader className="border-b border-zinc-100 bg-zinc-50/50 p-4">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <Skeleton className="h-10 w-full max-w-md rounded-xl" />
             <Skeleton className="h-10 w-64 rounded-lg" />
@@ -38,7 +38,7 @@ export default function InvoicesLoading() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="border-b border-slate-100 bg-slate-50/50">
+                <tr className="border-b border-zinc-100 bg-zinc-50/50">
                   {[...Array(5)].map((_, i) => (
                     <th key={i} className="px-6 py-3">
                       <Skeleton className="h-3 w-20" />
@@ -49,7 +49,7 @@ export default function InvoicesLoading() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-zinc-100">
                 {[...Array(6)].map((_, i) => (
                   <tr key={i}>
                     <td className="px-6 py-4">

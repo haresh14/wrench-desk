@@ -60,7 +60,7 @@ export default function SettingsLoading() {
             <Skeleton className="h-4 w-64 mt-2" />
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y divide-slate-100 border-t border-slate-100">
+            <div className="divide-y divide-zinc-100 border-t border-zinc-100">
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="w-full flex items-center justify-between px-6 py-4">
                   <div className="space-y-1.5">

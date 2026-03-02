@@ -47,7 +47,7 @@ export function SettingsView({ userEmail, initialSettings }: SettingsViewProps) 
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3 mb-1">
-              <div className="p-2 bg-slate-100 rounded-lg text-slate-600">
+              <div className="p-2 bg-zinc-100 rounded-lg text-zinc-600">
                 <User className="w-5 h-5" />
               </div>
               <CardTitle>Profile</CardTitle>
@@ -56,14 +56,14 @@ export function SettingsView({ userEmail, initialSettings }: SettingsViewProps) 
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-700">Email Address</label>
+              <label className="text-sm font-semibold text-zinc-700">Email Address</label>
               <input 
                 type="email" 
                 disabled 
                 value={userEmail || ''} 
-                className="w-full px-4 py-2 rounded-xl border border-slate-200 bg-slate-50 text-slate-500 cursor-not-allowed"
+                className="w-full px-4 py-2 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-500 cursor-not-allowed"
               />
-              <p className="text-xs text-slate-400">Email cannot be changed here.</p>
+              <p className="text-xs text-zinc-400">Email cannot be changed here.</p>
             </div>
           </CardContent>
         </Card>
@@ -72,7 +72,7 @@ export function SettingsView({ userEmail, initialSettings }: SettingsViewProps) 
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3 mb-1">
-              <div className="p-2 bg-slate-100 rounded-lg text-slate-600">
+              <div className="p-2 bg-zinc-100 rounded-lg text-zinc-600">
                 <Building className="w-5 h-5" />
               </div>
               <CardTitle>Company</CardTitle>
@@ -81,35 +81,35 @@ export function SettingsView({ userEmail, initialSettings }: SettingsViewProps) 
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-700">Company Name</label>
+              <label className="text-sm font-semibold text-zinc-700">Company Name</label>
               <input 
                 type="text" 
                 name="company_name"
                 defaultValue={initialSettings?.company_name || ''}
                 placeholder="e.g. Acme Plumbing"
-                className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-700">Business Address</label>
+              <label className="text-sm font-semibold text-zinc-700">Business Address</label>
               <input 
                 type="text" 
                 name="business_address"
                 defaultValue={initialSettings?.business_address || ''}
                 placeholder="e.g. 123 Maple St, Springfield"
-                className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
             </div>
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-slate-700">Service Areas</label>
+              <label className="text-sm font-semibold text-zinc-700">Service Areas</label>
               <input 
                 type="text" 
                 name="service_areas"
                 defaultValue={initialSettings?.service_areas || ''}
                 placeholder="e.g. Springfield, Riverside"
-                className="w-full px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                className="w-full px-4 py-2 rounded-xl border border-zinc-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
               />
-              <p className="text-xs text-slate-400">Separate areas with commas.</p>
+              <p className="text-xs text-zinc-400">Separate areas with commas.</p>
             </div>
           </CardContent>
         </Card>
@@ -118,7 +118,7 @@ export function SettingsView({ userEmail, initialSettings }: SettingsViewProps) 
         <Card>
           <CardHeader>
             <div className="flex items-center gap-3 mb-1">
-              <div className="p-2 bg-slate-100 rounded-lg text-slate-600">
+              <div className="p-2 bg-zinc-100 rounded-lg text-zinc-600">
                 <CreditCard className="w-5 h-5" />
               </div>
               <CardTitle>Billing</CardTitle>
@@ -126,7 +126,7 @@ export function SettingsView({ userEmail, initialSettings }: SettingsViewProps) 
             <CardDescription>Manage your subscription and payment methods.</CardDescription>
           </CardHeader>
           <CardContent className="p-0">
-            <div className="divide-y divide-slate-100 border-t border-slate-100">
+            <div className="divide-y divide-zinc-100 border-t border-zinc-100">
               {[
                 { label: 'Current Plan', value: 'Pro Plan' },
                 { label: 'Next Invoice', value: 'March 1, 2026' },
@@ -137,10 +137,10 @@ export function SettingsView({ userEmail, initialSettings }: SettingsViewProps) 
                   className="w-full flex items-center justify-between px-6 py-4 text-left"
                 >
                   <div>
-                    <p className="text-sm font-medium text-slate-900">{item.label}</p>
-                    <p className="text-sm text-slate-500 mt-0.5">{item.value}</p>
+                    <p className="text-sm font-medium text-zinc-900">{item.label}</p>
+                    <p className="text-sm text-zinc-500 mt-0.5">{item.value}</p>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
+                  <ChevronRight className="w-4 h-4 text-zinc-400" />
                 </div>
               ))}
             </div>

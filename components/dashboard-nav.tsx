@@ -30,7 +30,7 @@ export function DashboardNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="flex-1 p-4 space-y-1">
+    <nav className="flex-1 p-4 space-y-1.5">
         {navItems.map((item) => {
           const isActive = item.href === '/dashboard' 
             ? pathname === '/dashboard' 
@@ -41,13 +41,16 @@ export function DashboardNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-lg transition-colors",
+                "flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-xl transition-all group",
                 isActive 
-                  ? "bg-indigo-50 text-indigo-600" 
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                  ? "bg-white text-indigo-600 shadow-sm border border-zinc-200/60" 
+                  : "text-zinc-600 hover:bg-zinc-100/80 hover:text-zinc-900 border border-transparent"
               )}
             >
-              <item.icon className={cn("w-4 h-4", isActive ? "text-indigo-600" : "text-slate-400")} />
+              <item.icon className={cn(
+                "w-4 h-4 transition-transform group-hover:scale-110", 
+                isActive ? "text-indigo-600" : "text-zinc-400 group-hover:text-zinc-600"
+              )} />
               {item.label}
             </Link>
           )
