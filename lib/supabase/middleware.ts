@@ -61,8 +61,9 @@ export async function updateSession(request: NextRequest) {
                      request.nextUrl.pathname.startsWith('/signup') ||
                      request.nextUrl.pathname.startsWith('/auth')
   const isHomePage = request.nextUrl.pathname === '/'
+  const isPublicApi = request.nextUrl.pathname.startsWith('/keepalive') || request.nextUrl.pathname.startsWith('/api/')
 
-  if (!user && !isAuthPage && !isHomePage) {
+  if (!user && !isAuthPage && !isHomePage && !isPublicApi) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'
